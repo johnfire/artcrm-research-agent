@@ -27,6 +27,11 @@ class WebSearcher(Protocol):
     def __call__(self, query: str) -> list[dict]: ...
 
 
+class PageFetcher(Protocol):
+    """Fetch a URL and return its plain text content. Returns empty string on failure."""
+    def __call__(self, url: str) -> str: ...
+
+
 class GeoSearcher(Protocol):
     """Search for venues by location. Returns list of results with name, address, city."""
     def __call__(self, query: str, city: str, country: str = "DE") -> list[dict]: ...
