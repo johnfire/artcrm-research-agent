@@ -152,6 +152,7 @@ def create_research_agent(
                     email=contact.get("email", ""),
                     phone=contact.get("phone", ""),
                     notes=contact.get("notes", ""),
+                    scan_level=state.get("level"),
                 )
                 if contact_id:
                     saved_ids.append(contact_id)
