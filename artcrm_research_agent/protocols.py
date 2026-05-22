@@ -50,6 +50,7 @@ class ContactSaver(Protocol):
         email: str = "",
         phone: str = "",
         notes: str = "",
+        status: str = "candidate",
     ) -> int: ...
 
 
@@ -61,3 +62,8 @@ class RunStarter(Protocol):
 class RunFinisher(Protocol):
     """Log the completion of an agent run."""
     def __call__(self, run_id: int, status: str, summary: str, output_data: dict) -> None: ...
+
+
+class ChainsFetcher(Protocol):
+    """Return the list of ignored chain names from the database."""
+    def __call__(self) -> list[str]: ...
