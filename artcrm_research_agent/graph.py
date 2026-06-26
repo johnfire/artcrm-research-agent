@@ -134,8 +134,8 @@ class _ResearchAgent:
             try:
                 hits = self._geo_search(term, city, country)
                 results.extend(hits)
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.warning("research: Maps search failed for term %r in %s — %s", term, city, exc)
 
         seen: set[str] = set()
         deduped = []
@@ -154,8 +154,8 @@ class _ResearchAgent:
         for query in [primary.format(city=city), secondary.format(city=city)]:
             try:
                 results.extend(self._web_search(query=query))
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.warning("research: web search failed for query %r — %s", query, exc)
         return results
 
     def _fetch_pages(self, web_results: list[dict]) -> list[str]:
@@ -171,8 +171,8 @@ class _ResearchAgent:
                 text = self._fetch_page(url)
                 if text:
                     page_texts.append(f"[Page: {url}]\n{text[:1500]}")
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.warning("research: page fetch failed for %s — %s", url, exc)
             if len(page_texts) >= 3:
                 break
         return page_texts
@@ -263,8 +263,8 @@ class _ResearchAgent:
                 )
                 if contact_id:
                     saved_ids.append(contact_id)
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.warning("research: failed to save contact %r in %s — %s", contact.get("name", ""), city, exc)
         return saved_ids
 
 
